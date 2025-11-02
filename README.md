@@ -127,116 +127,6 @@ Scans subnet using two specific keys against three custom SSH ports.
   [+] Found live host: 10.0.0.120
 ```
 
-## ⚡ Performance
-
-SSHark uses aggressive multithreading for maximum speed:
-
-- **Subnet Scan:** 50 parallel threads
-- **Port Scanning:** 4 parallel threads per host
-- **SSH Testing:** 10 parallel authentication attempts
-
-**Typical Performance:**
-- Full /24 subnet scan: ~10 seconds
-- 100 SSH authentication attempts: ~50 seconds
-- Total operation: ~1-2 minutes for complete network mapping
-
-## 🏗️ Architecture
-
-```
-SSHark
-├── sshkeyspread.cpp       # Main application
-└── modules/
-    ├── parsers.cpp        # Config file parsing
-    ├── readfile.cpp       # File operations
-    ├── executils.cpp      # Command execution
-    └── portscanner.cpp    # TCP port scanning
-```
-
-## 🛡️ Defense & Detection
-
-### For Defenders
-
-Protect against SSHark-style attacks:
-
-1. **SSH Key Rotation** - Rotate keys regularly, especially privileged keys
-2. **Unique Keys** - Use different SSH keys for each system
-3. **SSH Certificates** - Implement SSH certificate authorities
-4. **Monitor Authentication** - Alert on multiple rapid SSH attempts
-5. **Network Segmentation** - Limit SSH access between systems
-6. **Audit Logging** - Log all SSH authentications
-
-### Detection Signatures
-
-SSHark creates distinctive patterns:
-- Multiple SSH connections from single source
-- Rapid authentication attempts across multiple hosts
-- Sequential port scanning on SSH ports
-- High volume of authentication failures
-
-## ⚠️ Legal Disclaimer
-
-**FOR AUTHORIZED TESTING ONLY**
-
-SSHark is designed for:
-- Authorized penetration testing
-- Security research
-- Educational purposes
-- Red team operations with explicit permission
-
-**WARNING:** Unauthorized access to computer systems is illegal. Always obtain explicit written permission before testing any network or system you do not own.
-
-The author assumes NO LIABILITY for misuse of this tool. Users are solely responsible for ensuring their activities comply with applicable laws and regulations.
-
-## 📝 License
-
-This tool is provided for educational and authorized testing purposes only.
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 👨‍💻 Author
-
-**c0d3Ninja**
-
-## 🔗 Use Cases
-
-- **Penetration Testing** - Post-exploitation lateral movement
-- **Red Team Ops** - Network foothold expansion
-- **Security Audits** - Identify SSH key reuse vulnerabilities
-- **Cloud Security** - Test AWS/Azure instance key reuse
-- **Incident Response** - Assess breach scope
-
-## 📚 Technical Details
-
-### Scanning Process
-
-1. **Key Discovery Phase**
-   - Searches default SSH key locations
-   - Supports custom key paths
-   - Validates key existence
-
-2. **Host Discovery Phase**
-   - Subnet ping sweep (--ip mode)
-   - Or /etc/hosts parsing (--hostnames mode)
-   - Parallel host-up checks
-
-3. **Port Scanning Phase**
-   - Checks SSH ports on live hosts
-   - Multithreaded port detection
-   - Configurable port list
-
-4. **Authentication Phase**
-   - Tests all key/host/port/username combinations
-   - Parallel SSH connection attempts
-   - Real-time success reporting
-
-### Threading Model
-
-- **Subnet Scan:** 50 worker threads
-- **Port Check:** 4 threads per host
-- **SSH Auth:** 10 concurrent connections
-- **Thread-Safe:** Mutex-protected output and data structures
 
 ## 🐛 Troubleshooting
 
@@ -267,29 +157,12 @@ chmod 600 ~/.ssh/id_rsa
 sudo ./bin/sshark --ip
 ```
 
-## 📈 Roadmap
-
-- [ ] IPv6 support
-- [ ] SOCKS proxy support
-- [ ] Output to JSON/CSV
-- [ ] Custom username lists
-- [ ] SSH config file parsing
-- [ ] Distributed scanning mode
-- [ ] Integration with Metasploit
-
 ## 🎓 Learning Resources
 
 - [SSH Key-Based Authentication](https://www.ssh.com/academy/ssh/key)
 - [Lateral Movement Techniques](https://attack.mitre.org/tactics/TA0008/)
 - [Post-Exploitation Guide](https://github.com/mubix/post-exploitation)
 
-## 🙏 Acknowledgments
-
-Built with modern C++ and inspired by the need for efficient post-exploitation tools.
-
----
 
 **Remember: With great power comes great responsibility. Use SSHark ethically and legally.**
-
-🦈 Happy (Ethical) Hacking! 🦈
 
